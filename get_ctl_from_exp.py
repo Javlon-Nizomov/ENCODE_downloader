@@ -62,8 +62,7 @@ def run_shell_cmd(cmd):
         p = subprocess.Popen(cmd, shell=True,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
-            universal_newlines=True,
-            preexec_fn=os.setsid)
+            universal_newlines=True)
         pid = p.pid
         pgid = os.getpgid(pid)
         print('run_shell_cmd: PID={}, CMD={}'.format(pid, cmd))
@@ -82,8 +81,8 @@ def run_shell_cmd(cmd):
         return ret.strip('\n')
     except:
         # kill all child processes
-        log.exception('Unknown exception caught. '+ \
-            'Killing process group {}...'.format(pgid))
+        #log.exception('Unknown exception caught. '+ \
+            #'Killing process group {}...'.format(pgid))
         os.killpg(pgid, signal.SIGKILL)
         p.terminate()
         raise Exception('Unknown exception caught. PID={}'.format(pid))
